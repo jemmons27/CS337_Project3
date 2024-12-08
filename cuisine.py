@@ -4,9 +4,10 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import unicodedata
 
-def swap_cuisine():
-
-    ingredient_mapping = {
+def swap_cuisine(cuisine):
+    ingredient_mapping = {}
+    if (cuisine == "chinese") :
+        ingredient_mapping = {
     # Dairy Products
     "Milk": "Soy milk",
     "Cheese": "Silken tofu",
@@ -132,13 +133,119 @@ def swap_cuisine():
     "Horseradish": "Wasabi",
     "Balsamic vinegar": "Black rice vinegar"
 }
-
+    elif (cuisine == "peruvian"):
+        ingredient_mapping = {
+    # Dairy Products
+    "Cheese": "Queso fresco",
+    "Butter": "Manteca",
+    "Cream": "Condensed milk",
+    "Yogurt": "Crema de leche",
+    "Sour cream": "Huancaína sauce",
+    "Whipped cream": "Chantilly cream",
+    "Cream cheese": "Queso fresco blended with milk",
+    "Ice cream": "Lucuma ice cream",
+    "Custard": "Crema volteada",
+    
+    # Herbs and Spices
+    "Parsley": "Cilantro",
+    "Thyme": "Muña",
+    "Basil": "albahaca criolla",
+    "Rosemary": "Huacatay",
+    "Dill": "Cilantro",
+    "Chives": "Scallions",
+    "Tarragon": "Huacatay",
+    "Sage": "Paico",
+    "Bay leaves": "Laurel leaves",
+    "Vanilla": "Vanilla essence",
+    "Allspice": "Panca chili powder",
+    "Paprika": "Panca chili powder",
+    "Caraway seeds": "Achiote",
+    
+    # Oils and Fats
+    "Olive oil": "Achiote oil",
+    "Canola oil": "Vegetable oil",
+    "Avocado oil": "Corn oil",
+    "Butter": "Manteca",
+    "Margarine": "Manteca",
+    "Vegetable shortening": "Corn oil",
+    "Ghee": "Manteca",
+    "Coconut oil": "Corn oil",
+    "Sunflower oil": "Vegetable oil",
+    
+    # Vegetables
+    "Avocado": "Palta",
+    "Asparagus": "White asparagus",
+    "Brussels sprouts": "Cabbage",
+    "Kale": "Collard greens",
+    "Turnips": "Yuca",
+    "Rutabaga": "Sweet potato",
+    "Artichokes": "Fresh Peruvian artichokes",
+    "Beets": "Boiled Peruvian beets",
+    "Rhubarb": "Sour tamarillo",
+    "Sweet corn": "Choclo",
+    "Parsnips": "Oca",
+    "Celery root": "Peruvian celery",
+    "Bell peppers": "Ají amarillo or rocoto peppers",
+    "Iceberg lettuce": "Butterhead lettuce",
+    "Radishes": "Peruvian radishes",
+    "Endive": "Chicory leaves",
+    "Fennel bulb": "Huacatay leaves",
+    "Squash": "Zapallo loche",
+    "Leeks": "Scallions",
+    
+    # Meats and Seafood
+    "Goose": "Duck",
+    "Rabbit": "Guinea Pig",
+    "Lamb chops": "Cabrito",
+    "Venison": "Llama meat",
+    "Bacon": "Chicharrón",
+    "Ham": "Peruvian cured ham",
+    "Pork belly": "Lechón",
+    "Oysters": "Clams",
+    
+    # Fruits
+    "Strawberries": "Camu camu",
+    "Cherries": "Aguaymanto",
+    "Plums": "Tamarillo",
+    "Apricots": "Chirimoya",
+    "Grapes": "Peruvian grapes",
+    "Figs": "Fresh Peruvian figs",
+    "Dates": "Sweetened raisins",
+    "Pomegranate": "Granadilla",
+    "Cranberries": "Aguaymanto",
+    "Raisins": "Dried aguaymanto",
+    "Currants": "Dried goldenberries",
+    "Blackberries": "Sanky",
+    "Raspberries": "Molles",
+    "Kiwi": "Tumbo",
+    
+    # Grains and Seeds
+    "Couscous": "Chuño",
+    "Polenta": "Mote",
+    "Oats": "Avena",
+    "Barley": "Quinua",
+    "Bulgar wheat": "Steamed quinua",
+    "Rye": "Kiwicha",
+    "Spelt": "Kiwicha",
+    "Flaxseeds": "Chía seeds",
+    
+    # Miscellaneous
+    "Peanut butter": "Peruvian peanut sauce",
+    "Ketchup": "Ají sauce",
+    "Mustard": "Ají amarillo paste",
+    "Worcestershire sauce": "Soy sauce with lime juice",
+    "Pickles": "Pickled rocoto",
+    "Capers": "Botija olives",
+    "Horseradish": "Ají amarillo paste",
+    "Balsamic vinegar": "Chicha vinegar"
+    }
 
     substitutions = {}
 
     soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/16354/easy-meatloaf/")
     threshold=80
     f = open("cuisine.txt", "w", encoding = 'utf-8')
+    f.write("Change recipe to " + cuisine + " cuisine\n\n")
     f.write("ORIGINAL RECIPE:\n")
     f.write("INGREDIENTS:\n")
     for ingredient in ingredients:
@@ -171,7 +278,10 @@ def swap_cuisine():
                 step['step'] = step['step'].replace(ingredient, substitutions[ingredient]) 
         f.write(step['step'] + "\n")
 
-swap_cuisine()
+
+#cuisine = 'chinese'
+cuisine = 'peruvian'
+swap_cuisine(cuisine)
             
 
 
