@@ -3,7 +3,7 @@ import web_scraping
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-def turn_healthy():
+def turn_healthy(url):
 
     healthy_substitutions = {
     "beef": 
@@ -30,7 +30,7 @@ def turn_healthy():
 
     substitutions = {}
 
-    soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/16354/easy-meatloaf/")
+    soup, steps, ingredients = web_scraping.fetch_recipe(url)
     threshold=80
     f = open("healthy.txt", "w")
     for ingredient in ingredients:
@@ -40,15 +40,23 @@ def turn_healthy():
             substitutions[ingredient['name']] = healthy_substitutions[match]
             ingredient['name'] = healthy_substitutions[match]
         f.write(ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + "\n")
-    
 
     for step in steps:
-        for ingredient in substitutions.keys():
+        for ingredient in substitutions.keys():           
             if ingredient in step['step']:
                 step['step'] = step['step'].replace(ingredient, substitutions[ingredient]) 
+        for ingredient in healthy_substitutions.keys():
+            if ingredient in step['step']:
+                step['step'] = step['step'].replace(ingredient, healthy_substitutions[ingredient]) 
         f.write(step['step'] + "\n")
 
-turn_healthy()
+    f.write("Substitutions: \n")
+    for item, value in substitutions.items():
+        f.write(item + " substituted with " + value + "\n")
+
+turn_healthy("https://www.allrecipes.com/recipe/240559/traditional-gyros/")
+#https://www.allrecipes.com/recipe/16354/easy-meatloaf/
+#https://www.allrecipes.com/recipe/150306/the-best-chicken-fried-steak/
             
 
 
