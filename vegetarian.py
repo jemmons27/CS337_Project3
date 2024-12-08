@@ -64,5 +64,14 @@ def turn_vegetarian(soup, steps, ingredients):
 #Example usage
 soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/150306/the-best-chicken-fried-steak/")
 steps, ingredients = turn_vegetarian(soup, steps, ingredients)
-print([step['step'] for step in steps if "Studios" not in step['step']])
-print([ingredient['name'] for ingredient in ingredients])
+
+modified_steps = [step['step'] for step in steps if "studios" not in step['step'].lower()]
+modified_steps_str = "\n".join(modified_steps)
+modified_ingredients = [ingredient['name'] for ingredient in ingredients]
+modified_ingredients_str = "\n".join(modified_ingredients)
+
+# Write the string to the file
+with open("veg.txt", "w") as f:
+    f.write(modified_steps_str)
+    f.write("\n\n")
+    f.write(modified_ingredients_str)
