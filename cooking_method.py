@@ -94,12 +94,21 @@ def replace_cooking_method(steps, old_method, new_method):
         else:
             modified_steps.append(step)
 
-    return [step for step in modified_steps if "Studios" not in step]
+    return [step for step in modified_steps if "studios" not in step.lower()]
 
 
 # Example usage
 soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/150306/the-best-chicken-fried-steak/")
-print(replace_cooking_method(steps, "fry", "bake"))
+
+
+modified_steps = replace_cooking_method(steps, "fry", "bake")
+modified_steps_str = "\n".join(modified_steps)
+modified_ingredients = [ingredient['name'] for ingredient in ingredients]
+
+# Write the string to the file
+with open("cm.txt", "w") as f:
+    f.write(modified_steps_str)
+
 
 
 
