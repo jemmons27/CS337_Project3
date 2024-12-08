@@ -138,14 +138,14 @@ def swap_cuisine():
 
     soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/16354/easy-meatloaf/")
     threshold=80
-    f = open("cuisine.txt", "w")
+    f = open("cuisine.txt", "w", encoding = 'utf-8')
     for ingredient in ingredients:
         # Find the best match from the dictionary keys
         match, score = process.extractOne(ingredient['name'], ingredient_mapping.keys(), scorer=fuzz.partial_ratio)
         if score >= threshold:  # Only consider it a match if the similarity score meets the threshold
             substitutions[ingredient['name']] = ingredient_mapping[match]
             ingredient['name'] = ingredient_mapping[match]
-        quantity = unicodedata.normalize('NFKD', ingredient['quantity']).encode('ascii', 'ignore').decode('utf-8')
+        ##quantity = unicodedata.normalize('NFKD', ingredient['quantity']).encode('ascii', 'ignore').decode('utf-8')
 
         f.write(ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + "\n")
     
