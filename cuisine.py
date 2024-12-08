@@ -139,6 +139,16 @@ def swap_cuisine():
     soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/16354/easy-meatloaf/")
     threshold=80
     f = open("cuisine.txt", "w", encoding = 'utf-8')
+    f.write("ORIGINAL RECIPE:\n")
+    f.write("INGREDIENTS:\n")
+    for ingredient in ingredients:
+        f.write(ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + "\n")
+    f.write("STEPS:\n")
+    for step in steps:
+        f.write(step['step'] + "\n")
+    
+    f.write('\n')
+    write_str = ""
     for ingredient in ingredients:
         # Find the best match from the dictionary keys
         match, score = process.extractOne(ingredient['name'], ingredient_mapping.keys(), scorer=fuzz.partial_ratio)
@@ -146,10 +156,15 @@ def swap_cuisine():
             substitutions[ingredient['name']] = ingredient_mapping[match]
             ingredient['name'] = ingredient_mapping[match]
         ##quantity = unicodedata.normalize('NFKD', ingredient['quantity']).encode('ascii', 'ignore').decode('utf-8')
-
-        f.write(ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + "\n")
+        write_str += ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + '\n'
+        #f.write(ingredient['quantity'] + " " + ingredient['unit'] + " " + ingredient['name'] + "\n")
     
-
+    f.write("SUBSTITUTIONS:\n")
+    for ingredient in substitutions.keys():
+        f.write(ingredient + ": " + substitutions[ingredient] + '\n')
+        
+    f.write('\n')
+    f.write(write_str)
     for step in steps:
         for ingredient in substitutions.keys():
             if ingredient in step['step']:
