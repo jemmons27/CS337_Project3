@@ -63,15 +63,31 @@ def turn_vegetarian(soup, steps, ingredients):
 
 #Example usage
 soup, steps, ingredients = web_scraping.fetch_recipe("https://www.allrecipes.com/recipe/150306/the-best-chicken-fried-steak/")
+
+original_steps = [step['step'] for step in steps  if "studios" not in step['step'].lower()]
+original_steps_str = "\n".join(f"{i+1}. {step}" for i, step in enumerate(original_steps))
+
+original_ingredients = [ingredient['name'] for ingredient in ingredients]
+original_ingredients_str = "\n".join(original_ingredients)
+
+
 steps, ingredients = turn_vegetarian(soup, steps, ingredients)
 
 modified_steps = [step['step'] for step in steps if "studios" not in step['step'].lower()]
-modified_steps_str = "\n".join(modified_steps)
+modified_steps_str = "\n".join(f"{i+1}. {step}" for i, step in enumerate(modified_steps))
 modified_ingredients = [ingredient['name'] for ingredient in ingredients]
 modified_ingredients_str = "\n".join(modified_ingredients)
 
 # Write the string to the file
 with open("veg.txt", "w") as f:
+    f.write("ORIGINAL STEPS:\n")
+    f.write(original_steps_str)
+    f.write("\n\n")
+    f.write("MODIFIED STEPS:\n")
     f.write(modified_steps_str)
     f.write("\n\n")
+    f.write("ORIGINAL INGREDIENTS:\n")
+    f.write(original_ingredients_str)
+    f.write("\n\n")
+    f.write("MODIFIED INGREDIENTS:\n")
     f.write(modified_ingredients_str)
