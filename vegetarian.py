@@ -79,7 +79,7 @@ modified_ingredients = [ingredient['name'] for ingredient in ingredients]
 modified_ingredients_str = "\n".join(modified_ingredients)
 
 # Write the string to the file
-with open("veg.txt", "w") as f:
+with open("veg.txt", "w", encoding='utf-8') as f:
     f.write("ORIGINAL STEPS:\n")
     f.write(original_steps_str)
     f.write("\n\n")

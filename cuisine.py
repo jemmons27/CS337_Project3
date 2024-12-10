@@ -2,7 +2,7 @@
 import web_scraping
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
-import unicodedata
+
 
 def swap_cuisine(cuisine):
     ingredient_mapping = {}
@@ -279,8 +279,8 @@ def swap_cuisine(cuisine):
         f.write(step['step'] + "\n")
 
 
-#cuisine = 'chinese'
-cuisine = 'peruvian'
+cuisine = 'chinese'
+#cuisine = 'peruvian'
 swap_cuisine(cuisine)
             
 

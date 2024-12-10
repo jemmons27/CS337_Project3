@@ -32,7 +32,7 @@ def turn_healthy(url):
 
     soup, steps, ingredients = web_scraping.fetch_recipe(url)
     threshold=80
-    f = open("healthy.txt", "w")
+    f = open("healthy.txt", "w", encoding='utf-8')
     for ingredient in ingredients:
         # Find the best match from the dictionary keys
         match, score = process.extractOne(ingredient['name'], healthy_substitutions.keys(), scorer=fuzz.partial_ratio)

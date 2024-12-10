@@ -176,7 +176,7 @@ modified_steps = replace_cooking_method(steps, "bake", "steam")
 modified_steps_str = "\n".join(f"{i+1}. {step}" for i, step in enumerate(modified_steps))
 
 # Write the string to the file
-with open("cm.txt", "w") as f:
+with open("cm.txt", "w", encoding='utf-8') as f:
     f.write("\n\n\n-------------- Example Usage 3 --------------\n\n")
     f.write("ORIGINAL STEPS:\n")
     f.write(original_steps_str)
